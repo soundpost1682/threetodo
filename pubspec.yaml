@@ -1,0 +1,52 @@
+name: threetodo
+description: "A new Flutter project."
+
+publish_to: 'none' 
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # 상태관리
+  provider: ^6.1.1
+  
+  # 로컬 데이터베이스
+  sqflite: ^2.3.2
+  path_provider: ^2.1.2
+  
+  # UI/테마
+  google_fonts: ^6.1.0
+  flex_color_scheme: ^7.3.1
+  
+  # 캘린더
+  table_calendar: ^3.0.9
+  
+  # 다국어 지원
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
+    
+  # 유틸리티
+  shared_preferences: ^2.2.2  # 앱 설정 저장용
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  
+  flutter_lints: ^5.0.0
+
+
+flutter:
+
+  uses-material-design: true
+

@@ -1,0 +1,18 @@
+{
+  "appTitle": "오늘의 3가지",
+  "@appTitle": {
+    "description": "앱의 제목"
+  },
+  "addTodo": "할 일 추가",
+  "@addTodo": {
+    "description": "할 일 추가 버튼 텍스트"
+  },
+  "settings": "설정",
+  "@settings": {
+    "description": "설정 메뉴 텍스트"
+  },
+  "calendar": "캘린더",
+  "@calendar": {
+    "description": "캘린더 메뉴 텍스트"
+  }
+} 

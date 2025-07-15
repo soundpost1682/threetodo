@@ -1,5 +1,5 @@
 name: threetodo
-description: "A new Flutter project."
+description: "A new Flutter project for managing three daily todos"
 
 publish_to: 'none' 
 
@@ -7,14 +7,14 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.8.1
+  sdk: '>=3.2.3 <4.0.0'
 
 
 dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.8
+  cupertino_icons: ^1.0.2
 
   # 상태관리
   provider: ^6.1.1
@@ -33,7 +33,7 @@ dependencies:
   # 다국어 지원
   flutter_localizations:
     sdk: flutter
-  intl: ^0.20.2
+  intl: ^0.18.1
     
   # 유틸리티
   shared_preferences: ^2.2.2  # 앱 설정 저장용
@@ -43,10 +43,15 @@ dev_dependencies:
     sdk: flutter
 
   
-  flutter_lints: ^5.0.0
+  flutter_lints: ^3.0.1
 
 
 flutter:
 
+  generate: true
   uses-material-design: true
+
+  # 다국어 설정
+  assets:
+    - lib/l10n/
 

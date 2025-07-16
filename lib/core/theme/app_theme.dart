@@ -17,7 +17,6 @@ class AppTheme {
   );
 
   static ThemeData darkTheme = ThemeData.dark().copyWith(
-    useMaterial3: true,
     primaryColor: AppColors.primaryColor,
     colorScheme: ColorScheme.dark(
       primary: AppColors.primaryColor,

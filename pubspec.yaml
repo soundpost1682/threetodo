@@ -33,7 +33,7 @@ dependencies:
   # 다국어 지원
   flutter_localizations:
     sdk: flutter
-  intl: ^0.18.1
+  intl: ^0.20.2
     
   # 유틸리티
   shared_preferences: ^2.2.2  # 앱 설정 저장용

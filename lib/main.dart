@@ -5,10 +5,11 @@ import 'features/todo/providers/todo_provider.dart';
 import 'features/home/screens/home_screen.dart';
 import 'data/database/todo_database.dart';
 import 'core/utils/logger.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await initializeDateFormatting('ko');
   // 데이터베이스 초기화
   try {
     AppLogger.info('Starting app initialization');

@@ -12,16 +12,8 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
-  static final DateTime firstDay = DateTime.utc(2024, 1, 1);
-  static final DateTime lastDay = DateTime.utc(2024, 12, 31);
-
-  DateTime getInitialFocusedDay() {
-    final now = DateTime.now();
-    if (now.isBefore(firstDay)) return firstDay;
-    if (now.isAfter(lastDay)) return lastDay;
-    return now;
-  }
-
+  late final DateTime firstDay;
+  late final DateTime lastDay;
   late DateTime _focusedDay;
   DateTime? _selectedDay;
   CalendarFormat _calendarFormat = CalendarFormat.month;
@@ -29,9 +21,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   void initState() {
     super.initState();
-    _focusedDay = getInitialFocusedDay();
-    _selectedDay =
-        DateTime(_focusedDay.year, _focusedDay.month, _focusedDay.day);
+    final now = DateTime.now();
+    firstDay = DateTime(now.year - 1, now.month, now.day);
+    lastDay = DateTime(now.year + 1, now.month, now.day);
+    _focusedDay = now;
+    _selectedDay = DateTime(now.year, now.month, now.day);
     Future.microtask(
         () => context.read<TodoProvider>().loadTodos(_selectedDay!));
   }

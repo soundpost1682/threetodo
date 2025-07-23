@@ -10,6 +10,7 @@ class TodoProvider with ChangeNotifier {
   bool _isLoading = false;
   bool _isInitialized = false;
   String? _error;
+  final Map<DateTime, List<Todo>> _events = {};
 
   // 게터
   List<Todo> get todos => _todos;
@@ -17,6 +18,7 @@ class TodoProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   bool get isInitialized => _isInitialized;
   String? get error => _error;
+  Map<DateTime, List<Todo>> get events => _events;
 
   // 오늘의 할 일 개수 제한
   static const int maxDailyTodos = 3;
@@ -50,6 +52,9 @@ class TodoProvider with ChangeNotifier {
       _todos = await _db.getTodosByDate(_selectedDate);
       AppLogger.info('Initial todos loaded: ${_todos.length}');
 
+      // 이번 달 할 일 이벤트 로드
+      await loadEventsForMonth(_selectedDate);
+
       _isInitialized = true;
       _error = null;
     } catch (e) {
@@ -61,6 +66,26 @@ class TodoProvider with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
       AppLogger.debug('Initialization completed. Success: $_isInitialized');
+    }
+  }
+
+  // 월별 할 일 이벤트 로드
+  Future<void> loadEventsForMonth(DateTime month) async {
+    try {
+      final firstDay = DateTime(month.year, month.month, 1);
+      final lastDay = DateTime(month.year, month.month + 1, 0);
+      final allTodos = <Todo>[];
+      for (int i = 0; i <= lastDay.day - 1; i++) {
+        final day = firstDay.add(Duration(days: i));
+        final todos = await _db.getTodosByDate(day);
+        allTodos.addAll(todos);
+        _events[DateTime(day.year, day.month, day.day)] = todos;
+      }
+      AppLogger.debug(
+          'Loaded events for month: ${month.month}, total: ${allTodos.length}');
+      // notifyListeners(); // 무한루프 방지를 위해 제거
+    } catch (e) {
+      AppLogger.error('loadEventsForMonth error', e);
     }
   }
 
@@ -79,7 +104,9 @@ class TodoProvider with ChangeNotifier {
 
       _todos = await _db.getTodosByDate(_selectedDate);
       AppLogger.debug(
-          'Loaded ${_todos.length} todos for date ${_selectedDate.toString()}');
+          'Loaded  [32m [1m [4m${_todos.length} [0m todos for date ${_selectedDate.toString()}');
+      // 무한루프 방지를 위해 loadEventsForMonth 호출 제거
+      // await loadEventsForMonth(_selectedDate);
     } catch (e) {
       AppLogger.error('Load todos error', e);
       _error = '할 일을 불러오는 중 오류가 발생했습니다';
@@ -88,6 +115,11 @@ class TodoProvider with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  // 날짜별 할 일 반환 (TableCalendar eventLoader용)
+  List<Todo> getTodosForDay(DateTime day) {
+    return _events[DateTime(day.year, day.month, day.day)] ?? [];
   }
 
   // 할 일 추가

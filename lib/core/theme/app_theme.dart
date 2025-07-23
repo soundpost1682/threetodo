@@ -6,7 +6,7 @@ class AppTheme {
     useMaterial3: true,
     primaryColor: AppColors.primaryColor,
     scaffoldBackgroundColor: AppColors.backgroundColor,
-    colorScheme: ColorScheme.light(
+    colorScheme: const ColorScheme.light(
       primary: AppColors.primaryColor,
       secondary: AppColors.secondaryColor,
     ),
@@ -18,7 +18,7 @@ class AppTheme {
 
   static ThemeData darkTheme = ThemeData.dark().copyWith(
     primaryColor: AppColors.primaryColor,
-    colorScheme: ColorScheme.dark(
+    colorScheme: const ColorScheme.dark(
       primary: AppColors.primaryColor,
       secondary: AppColors.secondaryColor,
     ),

@@ -37,6 +37,7 @@ dependencies:
     
   # 유틸리티
   shared_preferences: ^2.2.2  # 앱 설정 저장용
+  logger: ^2.0.2
 
 dev_dependencies:
   flutter_test:

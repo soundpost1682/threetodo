@@ -16,8 +16,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
   void initState() {
     super.initState();
     Future.microtask(
-      () => context.read<TodoProvider>().loadTodos(DateTime.now()),
-    );
+        () => context.read<TodoProvider>().loadTodos(DateTime.now()));
   }
 
   @override
@@ -25,21 +24,51 @@ class _TodoListScreenState extends State<TodoListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('오늘의 3가지 할 일'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.calendar_today),
-            onPressed: () {
-              // TODO: 캘린더 화면으로 이동
-            },
-          ),
-        ],
       ),
       body: Consumer<TodoProvider>(
         builder: (context, todoProvider, child) {
+          if (todoProvider.isLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
           final todos = todoProvider.todos;
 
           if (todos.isEmpty) {
-            return const Center(child: Text('오늘의 할 일을 추가해보세요!'));
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.task_alt,
+                    size: 64,
+                    color: Colors.grey,
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    '오늘의 3가지를 정해보세요!',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    '작은 목표부터 시작해볼까요?',
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  ElevatedButton.icon(
+                    onPressed: () => _showAddTodoDialog(context),
+                    icon: const Icon(Icons.add),
+                    label: const Text('할 일 추가하기'),
+                  ),
+                ],
+              ),
+            );
           }
 
           return ListView.separated(
@@ -62,6 +91,8 @@ class _TodoListScreenState extends State<TodoListScreen> {
 
               return FloatingActionButton(
                 onPressed: canAdd ? () => _showAddTodoDialog(context) : null,
+                backgroundColor:
+                    canAdd ? Theme.of(context).primaryColor : Colors.grey,
                 child: const Icon(Icons.add),
               );
             },
@@ -82,17 +113,25 @@ class _TodoListScreenState extends State<TodoListScreen> {
 class TodoItemCard extends StatelessWidget {
   final Todo todo;
 
-  const TodoItemCard({super.key, required this.todo});
+  const TodoItemCard({
+    super.key,
+    required this.todo,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 2,
       child: ListTile(
-        leading: Text(todo.icon ?? '📝', style: const TextStyle(fontSize: 24)),
+        leading: Text(
+          todo.icon ?? '📝',
+          style: const TextStyle(fontSize: 24),
+        ),
         title: Text(
           todo.title,
           style: TextStyle(
             decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
+            color: todo.isCompleted ? Colors.grey : null,
           ),
         ),
         subtitle: Text(todo.category),
